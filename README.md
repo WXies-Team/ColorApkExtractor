@@ -38,8 +38,8 @@ python main.py [-h] [-d URL] [-p] [-i] [-f] [-a] [-n] [-u] [-m] [-c] [-o]
 
 | 版本 | 适合 | 下载 |
 | --- | --- | --- |
-| 📁 正式版 Stable | 日常使用，稳定优先（推荐） | [stable/](https://storage.horatio.cn/ColorApkExtractor/stable/) · [GitHub Releases](https://github.com/WXies-Team/ColorApkExtractor/releases) |
-| 📁 测试版 Beta | 想先试新功能、帮忙挑毛病 | [beta/](https://storage.horatio.cn/ColorApkExtractor/beta/) |
+| 正式版 Stable | 日常使用，稳定优先（推荐） | [stable/](https://storage.horatio.cn/ColorApkExtractor/stable/) · [GitHub Releases](https://github.com/WXies-Team/ColorApkExtractor/releases) |
+| 测试版 Beta | 想先试新功能、帮忙挑毛病 | [beta/](https://storage.horatio.cn/ColorApkExtractor/beta/) |
 
 - 每个版本目录都附有这次更新了什么（CI 自动生成的更新说明）
 - 压缩包已自带 `tools/` 依赖（payload-dumper-go、extract.erofs），解压即用
