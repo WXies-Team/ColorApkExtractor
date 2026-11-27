@@ -24,11 +24,14 @@ jobs:
   Analysis:
     runs-on: self-hosted
     timeout-minutes: 20
+    permissions:
+      contents: write
 
     steps:
     - name: Checkout code
       uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      
+      with:
+        persist-credentials: false
     - name: Download dependencies-Linux-x86_64
       uses: robinraju/release-downloader@28fc21f50d76778e7023361aa1f863e717d3d56f # v1.13
       with:
@@ -56,8 +59,10 @@ jobs:
        chmod +x ./tools/payload-dumper-go
 
     - name: Download ROM
+      env:
+        LINK: ${{ github.event.inputs.link }}
       run: |
-        python main.py -d "${{ github.event.inputs.link }}"
+        python main.py -d "$LINK"
 
     - name: Unzip payload.bin
       run: |
@@ -124,15 +129,19 @@ jobs:
 
     - name: Push database
       continue-on-error: true
+      env:
+        PUSHDB: ${{ github.event.inputs.push }}
+        DEVICENAME: ${{ github.event.inputs.devicename }}
+        OSVERSION: ${{ github.event.inputs.osversion }}
+        GH_TOKEN: ${{ github.token }}
       run: |
         git config --global user.email "${GITHUB_ACTOR}@users.noreply.github.com"
         git config --global user.name "${GITHUB_ACTOR}"
+        git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
         git add app_version.json app_code.json
-        if [ "${{ github.event.inputs.push }}" = "是" ]; then
-            git commit -m "chore: update ${{ github.event.inputs.devicename }} ${{ github.event.inputs.osversion }} by action"
+        if [ "$PUSHDB" = "是" ]; then
+            git commit -m "chore: update $DEVICENAME $OSVERSION by action"
             git push
-          elif [ "${{ github.event.inputs.push }}" = "否" ]; then
-            exit 0
           else
             exit 0
           fi
